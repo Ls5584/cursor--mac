@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="一个简单易用的词频统计与词云生成工具，支持文本分析和可视化。">
+    <title>词频统计与词云生成器</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Preload fonts for better performance -->
+    <link rel="preload" href="https://d3js.org/d3.v7.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/jasondavies/d3-cloud/build/d3.layout.cloud.js" as="script">
+</head>
+<body class="light-theme">
+    <div class="theme-toggle">
+        <button id="themeToggle" aria-label="切换深色/浅色主题" title="切换主题">
+            <svg class="theme-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                <path class="sun-icon" d="M12 2v2m0 16v2M4 12H2m20 0h-2m-2.05-6.95L16.24 7.76M7.76 16.24l-1.71 1.71M7.76 7.76L6.05 6.05m10.19 10.19l1.71 1.71M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/>
+                <path class="moon-icon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </button>
+    </div>
+
+    <main class="container">
+        <h1>词频统计与词云生成器</h1>
+        
+        <section class="input-section" aria-label="文本输入区域">
+            <div class="text-input">
+                <textarea id="textInput" 
+                    placeholder="在此输入或粘贴文本..."
+                    aria-label="文本输入框"
+                    rows="8"></textarea>
+                <div class="file-input">
+                    <label for="fileInput" class="file-label">
+                        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        导入文本文件
+                    </label>
+                    <input type="file" 
+                        id="fileInput" 
+                        accept=".txt"
+                        aria-label="选择文本文件"
+                        style="display: none;">
+                </div>
+            </div>
+        </section>
+
+        <div class="controls">
+            <button id="analyzeBtn" class="primary-btn">
+                <span class="button-text">分析文本</span>
+                <span class="loading-spinner" hidden></span>
+            </button>
+            <button id="resetBtn" class="secondary-btn">重置</button>
+        </div>
+
+        <div class="results-section" aria-live="polite">
+            <section class="frequency-section" aria-label="词频统计">
+                <h2>词频统计 (Top 10)</h2>
+                <div id="frequencyList" class="frequency-list"></div>
+            </section>
+
+            <section class="stopwords-section" aria-label="停用词管理">
+                <h2>自定义停用词</h2>
+                <div class="stopwords-input">
+                    <input type="text" 
+                        id="stopwordInput" 
+                        placeholder="输入要过滤的词"
+                        aria-label="停用词输入框">
+                    <button id="addStopword" aria-label="添加停用词">添加</button>
+                </div>
+                <div id="stopwordsList" class="stopwords-list" role="list"></div>
+            </section>
+
+            <section class="wordcloud-section" aria-label="词云展示">
+                <h2>词云展示</h2>
+                <div id="wordcloud" class="wordcloud-container" role="img" aria-label="词云图像"></div>
+                <button id="saveImage" class="secondary-btn" disabled>保存词云图片</button>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading indicator -->
+    <div id="loadingOverlay" class="loading-overlay" hidden>
+        <div class="loading-spinner"></div>
+        <p>正在处理...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jasondavies/d3-cloud/build/d3.layout.cloud.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html> 
